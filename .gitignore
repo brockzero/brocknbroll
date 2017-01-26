@@ -1,5 +1,2 @@
 include/constants.php
-comic/content/*.jpg
-comic/content/*.jepg
-comic/content/*.png
-comic/content/*.gif
+comic/content/**
