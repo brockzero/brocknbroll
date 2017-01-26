@@ -1,0 +1,44 @@
+﻿@charset "utf-8";
+/* CSS Document */
+/* CSS Reset */
+/* background-image:url(ac-background.png); */
+body {
+    height: 100%;
+    background-color: #e5e27d;
+    background-attachment: fixed;
+    background-image:url(ac-background.png);
+    font-family: 'Open Sans', sans-serif;
+}
+
+p.floatRight, .inlineLeft, .inlineRight {
+    float: right;
+    width: 300px;
+    font-size: 0.9em;
+}
+
+.header, .content, .footer {
+    background-color: white;
+    border-radius: 12px;
+    border: 1px solid black;
+    padding: 6px;
+    margin: 2px 0 2px;
+}
+
+.header {
+    height: 100px;
+}
+
+
+
+.footer {
+    text-align: center;
+}
+
+    .footer ul {
+        list-style: none;
+        padding: 0;
+    }
+
+        .footer ul li {
+            display: inline;
+        }

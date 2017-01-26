@@ -1,0 +1,43 @@
+DirectoryIndex comic.php index.php index.htm
+RewriteEngine on
+RewriteBase /
+RewriteRule ^([A-Za-z0-9_-]+)/?$ $1.php [L]
+RewriteRule ^([A-Za-z0-9_-]+)/([A-Za-z0-9_-]+)/?$ $1.php?page=$2 [L]
+RewriteRule ^([A-Za-z0-9_-]+)/([A-Za-z0-9_-]+)/([A-Za-z0-9_-]+)/?$ $1.php?page=$2&id=$3 [L]
+#look into [QSA] for simplyfing my rules
+
+#https://gist.github.com/RaVbaker/2254618
+#RewriteEngine on
+#RewriteCond %{REQUEST_FILENAME} !-d
+#RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteRule . index.php [L]
+
+
+#If your host alows magic quotes off http://us2.php.net/manual/en/security.magicquotes.disabling.php
+#php_flag magic_quotes_gpc Off
+#php_value magic_quotes_gpc Off
+
+#However, there is another way to disable this setting even if you don't have access to the server configuration - you can put a php.ini file in the directory where your scripts are with the directive:
+#magic_quotes_gpc = Off
+
+#^ for localhost
+#RewriteBase /awful  <---- not sure what this is for anymore
+
+#This goes in httpd.conf on my local machine
+#It makes my 1270.0.1 into awfulcontent.net
+#NameVirtualHost 127.0.0.1
+
+#<VirtualHost 127.0.0.1>
+#   DocumentRoot "E:\programs\xampp\htdocs\awfulcontent"
+#   ServerName awfulcontent.net
+#</VirtualHost>
+###################################
+
+#C:\WINDOWS\system32\drivers\etc\hosts
+# Copyright (c) 1993-1999 Microsoft Corp.
+#
+# This is a sample HOSTS file used by Microsoft TCP/IP for Windows.
+#127.0.0.1 		awfulcontent.net
+
+
+

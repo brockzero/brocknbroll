@@ -1,0 +1,16 @@
+  <div class="box mainContent">
+      <div ng-controller="ComicDetailCtrl">
+        <h1>{{comic.title || comic.fileName}}</h1>
+        <div class="comic-nav" comic-nav></div>
+        <div class="comic-detail" comic-detail></div>
+        <div class="comic-nav" comic-nav></div>
+        <hr>
+        <div class="comic-description" ng-bind-html="comic.description"></div>
+        <div class="comic-author">By: {{comic.user}} on {{comic.createdDate}}</div>
+        <!--
+        <div>Permanent link to this comic:{{serverAbsUrl}}</div>
+        <div>Image URL (for hotlinking/embedding): {{serverHost}}/{{comicFile}}</div>
+        -->
+      </div>
+      <!--<p>{{comic}}</p>-->
+  </div>

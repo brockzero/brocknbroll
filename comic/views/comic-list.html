@@ -1,0 +1,18 @@
+<div class="box mainContent">
+  <h2>Comic Archive</h2>
+  <div class="row">
+    <div class="col-md-3">
+      <!--Sidebar content-->
+      Search: <input ng-model="comicSearch">
+    </div>
+    <div class="col-md-9">
+      <!--Body content-->
+      <ol class="comicList" style="text-align:left">
+        <!-- | filter:comicSearch | orderBy:orderProp -->
+        <li ng-repeat="comic in comics | filter:comicSearch | orderBy:orderProp" class="">
+          <a href="#/comics/{{comic.id}}" class="thumb"> {{comic.title}} </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

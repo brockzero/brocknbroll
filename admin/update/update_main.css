@@ -1,0 +1,20 @@
+/* CSS Document */
+/*
+* {padding:0px; margin:0px; color: #000000;}
+*/
+* {margin:0px; padding:0px; font-family:Verdana, Geneva, sans-serif; font-size:10pt; color: #000000;}
+body {width:1000px; margin:0px auto 40px; background-color:#eeeeee;}
+h1 {font-size:2em}
+h2 {font-size:1.5em}
+h3 {margin:4px 0px; font-size:1.25em}
+th {text-align:left}
+.tableStyle {margin-top:10px; width:1000px;}
+.trStyle-1{background-color:#eee1b2; line-height:20px;}
+.trStyle-2{background-color:#ffffff; line-height:20px;}
+textarea#article {width:780px; height:390px;}
+
+.achieveTxtHolder {border: #ffffff 1px solid; background-color:#eee1b2; margin:4px 25px;}
+.achieveTxt {padding:10px 8px;}
+.achieveTxt h5 {font-size:1.2em; margin:0px 0px 2px;}
+.achieveTxt h6 {font-size:0.9em; font-weight:normal; margin:2px 0px 0px;}
+.achieveUnlockTime {font-size:0.9em; float:right;}

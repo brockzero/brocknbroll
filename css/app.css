@@ -1,0 +1,61 @@
+/* app css stylesheet */
+html, body {
+  height: 100%;
+  /* The html and body elements cannot have any padding or margin. */
+}
+body {
+    background-color: #424242;
+    /* background-attachment: fixed;
+    background-image:url(../img/ac-background.png); */
+    font-family: 'Open Sans', sans-serif;
+}
+
+h1 {
+  border-bottom: solid 2px black;
+}
+
+#mainBody {
+   background-color: #424242;
+   background-image:url(../img/brock-n-broll-banner.png);
+   background-repeat: no-repeat;
+   background-position: 100 100;
+
+ }
+
+#mainContent {
+  background-color: #ffffff;
+}
+
+.nav>li>a, .navbar-nav>li>a {
+  padding: 4px 46px 4px 4px;
+  line-height:12px;
+  color: white;
+  display:block;
+}
+.nav>li>a:hover, .navbar-nav>li>a:hover {
+  background-color: white;
+  color: #424242;
+}
+
+@media (min-width: 768px) and (max-width: 979px) {
+  #mainBody,.menu {background-color: #ffffff;}
+  .menu {border-bottom: 1px solid #424242; height:30px;}
+  .nav>li>a, .navbar-nav>li>a {
+    font-size:18px;
+    padding: 4px 8px;
+    line-height:22px;
+    color: #424242;
+  }
+  .nav>li>a:hover, .navbar-nav>li>a:hover {
+    background-color: #424242;
+    color: white;
+  }
+ }
+
+.comic-detail, .comic-nav {
+ text-align:center;
+}
+
+.comic-author {
+  margin-bottom:40px;
+}
