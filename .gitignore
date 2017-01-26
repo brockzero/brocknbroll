@@ -1,2 +1,2 @@
 include/constants.php
-comic/content/**
+comic/content/*
