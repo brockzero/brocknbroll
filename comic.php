@@ -12,6 +12,9 @@
 
 </head>
 <body>
+  <?php
+    echo $_GET['page'] ?? 'empty';
+  ?>
   <div class="container">
     <div class="row" id="mainBody">
       <div class="col-md-1 menu">
@@ -26,7 +29,7 @@
       </div>
       <div class="col-md-11" id="mainContent">
         <div class="view-frame">
-			<div id="comic">
+			<div id="comic" v-if="items">
 				<div>{{items.fileName}}</div>
 				<div>{{items.user}}</div>
 			</div>
@@ -35,34 +38,50 @@
     </div>
   </div>
   <script>
-var apiURL = 'comic/comic.php';
+  $(function(){
+    
+    var demoList = new Vue({
 
-var demoList = new Vue({
+      el: '#comic',
 
-  el: '#comic',
+      data: {
+        currentBranch: 'dev',
+        items: null
+      },
 
-  data: {
-    currentBranch: 'dev',
-    items: null
-  },
+      created: function () {
+        this.fetchData();
+      },
 
-  created: function () {
-    this.fetchData();
-  },
+      methods: {
+        fetchData: function () {
+        var self = this;
+        $.ajax({
+            url: "comic/comic.php",
+            data: { 
+                  page: "<?php echo $_GET['page'] ?? '0'; ?>"
+            },
+            cache: false,
+            type: "GET",
+            success: function(response) {
+              self.items = JSON.parse(response);
+              console.log(response);
+            },
+            error: function(xhr) {
+              console.log(xhr);
+            }
+        });
 
-  methods: {
-    fetchData: function () {
-    var self = this;
-    $.get( apiURL, function( data ) {
-		console.log(data);
-        self.items = JSON.parse(data);
-		console.log(self.items);
+
+       // $.get( apiURL, function( data ) {
+       //     self.items = JSON.parse(data);
+       //     console.log(data);
+       //     console.log(self.items);
+       // });
+        }
+      }
     });
-
-    }
-
-  }
-});
-</script>
+  });
+  </script>
 </body>
 </html>
