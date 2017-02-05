@@ -29,30 +29,38 @@
       </div>
       <div class="col-md-11" id="mainContent">
         <div class="view-frame">
-			<div id="comic" v-if="items">
-				<div>{{items.fileName}}</div>
-				<div>{{items.user}}</div>
-			</div>
-		</div>
+          <div id="comic">
+            <div><img v-bind:alt="comic.altAttr" v-bind:src="comic.fileName" v-bind:title="comic.titleAttr" ></div>
+            <div>{{comic.user}}</div>
+            <div v-html="comic.description"></div>
+          </div>
+		    </div>
       </div>
     </div>
   </div>
   <script>
   $(function(){
     
-    var demoList = new Vue({
+    function model(data)
+    {
+      console.log(data);
+      self = this;
+      self.user = data.user || '';
+      self.fileName = 'comic/content/' + data.fileName || '';
+      self.altAttr = data.altAttr || '';
+      self.titleAttr = data.titleAttr || '';
+      return self;
+    }
 
+    var comic = new Vue({
       el: '#comic',
-
       data: {
         currentBranch: 'dev',
-        items: null
+        comic: model
       },
-
       created: function () {
         this.fetchData();
       },
-
       methods: {
         fetchData: function () {
         var self = this;
@@ -64,20 +72,12 @@
             cache: false,
             type: "GET",
             success: function(response) {
-              self.items = JSON.parse(response);
-              console.log(response);
+              self.comic = model(JSON.parse(response));
             },
             error: function(xhr) {
               console.log(xhr);
             }
         });
-
-
-       // $.get( apiURL, function( data ) {
-       //     self.items = JSON.parse(data);
-       //     console.log(data);
-       //     console.log(self.items);
-       // });
         }
       }
     });
