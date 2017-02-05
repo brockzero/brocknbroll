@@ -67,7 +67,7 @@
         $.ajax({
             url: "comic/comic.php",
             data: { 
-                  page: "<?php echo $_GET['page'] ?? '0'; ?>"
+              page: "<?php echo $_GET['page'] ?? '0'; ?>"
             },
             cache: false,
             type: "GET",
