@@ -21,7 +21,7 @@
         <div>
           <ul class="nav navbar-nav">
             <li><a href="#">Comic</a></li>
-            <li><a href="#">Words</a></li>
+            <!--<li><a href="#">Words</a></li>-->
             <li><a href="#">Contact</a></li>
             <li><a href="#">About</a></li>
           </ul>
@@ -30,10 +30,22 @@
       <div class="col-md-11" id="mainContent">
         <div class="view-frame">
           <div id="comic">
+            <h2>{{comic.title}}</h2>
+            <div class="paging">
+              <a v-bind:href="comic.url+comic.pagingFirst">First</a> | 
+              <a v-bind:href="comic.url+comic.pagingPrevious">Previous</a> |  
+              <a v-bind:href="comic.url+comic.pagingNext">Next</a> | 
+              <a v-bind:href="comic.url+comic.pagingLast">Last</a>
+            </div>
             <div><img v-bind:alt="comic.altAttr" v-bind:src="comic.fileName" v-bind:title="comic.titleAttr" ></div>
+            <div class="paging">
+              <a v-bind:href="comic.url+comic.pagingFirst">First</a> | 
+              <a v-bind:href="comic.url+comic.pagingPrevious">Previous</a> |  
+              <a v-bind:href="comic.url+comic.pagingNext">Next</a> | 
+              <a v-bind:href="comic.url+comic.pagingLast">Last</a>
+            </div>
             <div>{{comic.user}}</div>
             <div v-html="comic.description"></div>
-            <div class="paging">{{comic.pagingFirst}} | {{comic.pagingPrevious}} | {{comic.id}} | {{comic.pagingNext}} | {{comic.pagingLast}}</div>
           </div>
 		    </div>
       </div>
@@ -69,6 +81,7 @@
         self.pagingPrevious = self.id - 1;
       } 
 
+      self.url = "comic.php?page=";
       return self;
     }
 
