@@ -33,6 +33,7 @@
             <div><img v-bind:alt="comic.altAttr" v-bind:src="comic.fileName" v-bind:title="comic.titleAttr" ></div>
             <div>{{comic.user}}</div>
             <div v-html="comic.description"></div>
+            <div class="paging">{{comic.pagingFirst}} | {{comic.pagingPrevious}} | {{comic.id}} | {{comic.pagingNext}} | {{comic.pagingLast}}</div>
           </div>
 		    </div>
       </div>
@@ -45,10 +46,29 @@
     {
       console.log(data);
       self = this;
-      self.user = data.user || '';
-      self.fileName = 'comic/content/' + data.fileName || '';
       self.altAttr = data.altAttr || '';
+      self.category = data.category || '';
+      self.createdDate = data.createdDate || '';
+      self.description = data.description || '';
+      self.fileName = 'comic/content/' + data.fileName || '';
+      self.id = data.id;
+      self.keywords = data.keywords || '';
+      self.pagingFirst = data.pagingFirst || '';
+      self.pagingLast = data.pagingLast || '';
+      self.title = data.title || '';
       self.titleAttr = data.titleAttr || '';
+      self.user = data.user || '';
+      self.pagingNext = data.pagingLast;
+      self.pagingPrevious = data.pagingFirst;
+
+      if(self.id < self.pagingLast) {
+        self.pagingNext = self.id + 1;
+      }
+
+      if(self.id > 1) {
+        self.pagingPrevious = self.id - 1;
+      } 
+
       return self;
     }
 
@@ -63,21 +83,21 @@
       },
       methods: {
         fetchData: function () {
-        var self = this;
-        $.ajax({
-            url: "comic/comic.php",
-            data: { 
-              page: "<?php echo $_GET['page'] ?? '0'; ?>"
-            },
-            cache: false,
-            type: "GET",
-            success: function(response) {
-              self.comic = model(JSON.parse(response));
-            },
-            error: function(xhr) {
-              console.log(xhr);
-            }
-        });
+          var self = this;
+          $.ajax({
+              url: "comic/comic.php",
+              data: { 
+                page: "<?php echo $_GET['page'] ?? '0'; ?>"
+              },
+              cache: false,
+              type: "GET",
+              success: function(response) {
+                self.comic = model(JSON.parse(response));
+              },
+              error: function(xhr) {
+                console.log(xhr);
+              }
+          });
         }
       }
     });
