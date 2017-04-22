@@ -55,7 +55,7 @@ class ComicController
                 if (ctype_digit($_GET['page'])) //test $_GET[page] for digits only
                 {
                     $page = intval($_GET['page']);
-                    if ($page >= $Comic->pagingLast)
+                    if ($page >= $Comic->pagingLast || $page == 0)
                     {
                         $page = $Comic->pagingLast;
                     }

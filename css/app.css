@@ -1,4 +1,4 @@
-/* app css stylesheet */
+/* app css stylesheet http://foundation.zurb.com/sites/docs/*/
 html, body {
   height: 100%;
   /* The html and body elements cannot have any padding or margin. */
@@ -19,11 +19,16 @@ h1 {
    background-image:url(../img/brock-n-broll-banner.png);
    background-repeat: no-repeat;
    background-position: 100 100;
-
  }
 
 #mainContent {
   background-color: #ffffff;
+  border: 1px solid black;
+  border-radius: 20px;
+  min-height: 560px;
+  padding-left:30px;
+  padding-right:30px;
+  padding-bottom:15px;
 }
 
 .nav>li>a, .navbar-nav>li>a {
@@ -58,4 +63,9 @@ h1 {
 
 .comic-author {
   margin-bottom:40px;
+}
+
+#comic img {
+  display:block;
+  margin:0px auto;
 }
