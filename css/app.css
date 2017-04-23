@@ -5,6 +5,10 @@ body {
     font-family: 'Open Sans', sans-serif;
 }
 
+body > div.main > div#siteNav > div > h1 {
+    display:none;
+}
+
 #comic img {
   display:block;
   margin:0px auto;
@@ -42,4 +46,26 @@ body {
 #siteNav li>a:hover {
     background-color: white;
     color: #424242;
+}
+
+@media screen and (min-width: 1em) and (max-width: 63.9375em) {
+
+    body > div.main > div#siteNav > div > img {
+        display:none;
+    }
+    body > div.main > div#siteNav > ul {
+        color:#ffffff;
+        float:left;
+    }
+    body > div.main > div#siteNav > div > h1 {
+        display:block;
+        color:#ffffff;
+        float:right;
+        margin-right:15px;
+    }
+
+    #siteNav { 
+        text-align:left;
+        padding-right: 0px;
+    }
 }
