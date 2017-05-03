@@ -9,7 +9,7 @@ body > div.main > div#siteNav > div > h1 {
     display:none;
 }
 
-#comic img {
+#comicVue img {
   display:block;
   margin:0px auto;
 }
@@ -30,8 +30,12 @@ body > div.main > div#siteNav > div > h1 {
 
 
 .full-height {
-   min-height:100vh;
-   background-color: #ffffff;
+    min-height:100vh;
+    background-color: #ffffff;
+    border-top-left-radius: 0;
+    border-top-right-radius: 1em 3em;
+    border-bottom-right-radius: 4em 0.5em;
+    border-bottom-left-radius: 1em 3em;
 }
 
 #siteNav { 
@@ -48,6 +52,10 @@ body > div.main > div#siteNav > div > h1 {
     color: #424242;
 }
 
+#comicVue {
+    
+}
+
 @media screen and (min-width: 1em) and (max-width: 63.9375em) {
 
     body > div.main > div#siteNav > div > img {
@@ -62,6 +70,10 @@ body > div.main > div#siteNav > div > h1 {
         color:#ffffff;
         float:right;
         margin-right:15px;
+    }
+
+    .full-height {
+        border-top-left-radius: 2em 0.5em;
     }
 
     #siteNav { 

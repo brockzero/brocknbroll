@@ -1,5 +1,6 @@
 <?php
-require_once("database.php");
+require_once('../include/autoloader.php');
+$database = new DatabaseController(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
 require_once("mailer.php");
 require_once("form.php");
 require_once("is_email.php");
@@ -21,7 +22,6 @@ class Session
 	}
 
 	function startSession() {
-		global $database;
 		session_start();   //Tell PHP to start the session
 		//session_regenerate_id(TRUE); //need more research on what to do with this
 		/* Determine if user is logged in */
@@ -37,7 +37,6 @@ class Session
 	}
 	
 	function checkLogin() {
-		global $database;
 		/* Check if user has been remembered */
 		if(isset($_COOKIE['cookname']) && isset($_COOKIE['cookid']) && $_SESSION['username'] != GUEST_NAME){
 			$this->username = $_SESSION['username'] = $_COOKIE['cookname'];
@@ -65,7 +64,7 @@ class Session
 	}
 	
 	function login($subuser, $subpass, $subremember) {
-		global $database, $form;
+		global $form;
 		$field = "user";  //Use field name for username
 		if(!$subuser || strlen($subuser = trim($subuser)) == 0){
 			$form->setError($field, "* Username not entered");
@@ -127,7 +126,6 @@ class Session
 	}
 	
 	function logout() {
-		global $database;
 		/**
 		* Delete cookies - the time must be in the past which autmatically invalidates them
 		*/
@@ -152,7 +150,7 @@ class Session
 	* returns 0. Returns 2 if registration failed.
 	*/
 	function register($subuser, $subpass, $subemail) {
-		global $database, $form, $mailer;
+		global $form, $mailer;
 		/* Username error checking */
 		$field = "user";  //Use field name for username
 		if(!$subuser || strlen($subuser = trim($subuser)) == 0){
@@ -234,7 +232,7 @@ class Session
 	* automatically.
 	*/
 	function editAccount($subcurpass, $subnewpass, $subemail) {
-		global $form, $database;
+		global $form;
 		/* New password entered */
 		if($subnewpass){
 			/* Current Password error checking */
@@ -353,7 +351,6 @@ class Session
 	the encrypted password.
 	*/
 	function confirmUserPass($username,$password) {
-		global $database;
 		$query = "SELECT password FROM ".TBL_USERS." WHERE username = ?";
 		$stmt = $database->prepare($query);
 		$stmt->bind_param("s", $username);
@@ -370,7 +367,6 @@ class Session
 }
 
 $mailer = new Mailer;
-$database = new MySQLDB(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
 $session = new Session();
 $form = new Form;
 ?>

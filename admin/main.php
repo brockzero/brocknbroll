@@ -1,6 +1,6 @@
 <?php
-include("admin/session.php");
-include("layout/header.php");
+include("session.php");
+//include("layout/header.php");
 echo '<div id="comicContainer">';
 
 /*
@@ -14,9 +14,9 @@ if($session->logged_in){
        ."[<a href=\"admin/useredit.php\">Edit Account</a>] &nbsp;&nbsp;"
 	   ."[<a href=\"update\">Update AwfulContent</a>] &nbsp;&nbsp;";
    if($session->isAdmin()){
-      echo '[<a href="admin/admin.php">Admin Center</a>] &nbsp;&nbsp;';
+      echo '[<a href="admin.php">Admin Center</a>] &nbsp;&nbsp;';
    }
-   echo "[<a href=\"admin/process.php\">Logout</a>]</p>";
+   echo "[<a href=\"process.php\">Logout</a>]</p>";
 } else {// else 1
 ?>
 
@@ -32,7 +32,7 @@ if($form->getNumErrors() > 0){
    echo '<p>'.$form->getNumErrors().' error(s) found</p>';
 }
 ?>
-<form action="admin/process.php" method="POST">
+<form action="process.php" method="POST">
 <table>
 <tr>
     <td>Username:</td>
@@ -59,5 +59,5 @@ if($form->getNumErrors() > 0){
 <?php
 } //else 1 end
 echo '</div>';
-include("layout/footer.php");
+//include("layout/footer.php");
 ?>

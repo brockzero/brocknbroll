@@ -25,7 +25,7 @@
   </div>
   <div class="large-10 columns full-height" id="mainContent">
     <div class="view-frame">
-      <div id="comic">
+      <div id="comicVue">
         <h3 style="text-align:center;">{{comic.title}}</h3>
         <div class="comicNav">
           <ul class="menu expanded">
@@ -36,7 +36,9 @@
             <li><a v-bind:href="comic.url+comic.pagingLast">Last</a></li> 
           </ul>
         </div>
-        <div><img v-bind:alt="comic.altAttr" v-bind:src="comic.fileName" v-bind:title="comic.titleAttr" ></div>
+        <div>
+          <img v-bind:alt="comic.altAttr" v-bind:src="comic.fileName" v-bind:title="comic.titleAttr" >
+        </div>
         <div class="comicNav">
           <ul class="menu expanded">
             <li><a v-bind:href="comic.url+comic.pagingFirst">First</a></li> 
@@ -93,7 +95,7 @@
     }
 
     var comic = new Vue({
-      el: '#comic',
+      el: '#comicVue',
       data: {
         currentBranch: 'dev',
         comic: model
