@@ -1,23 +1,24 @@
 <?php
 require_once('../include/autoloader.php');
-$database = new DatabaseController(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
 require_once("mailer.php");
 require_once("form.php");
 require_once("is_email.php");
+//http://www.yiiframework.com/forum/index.php/topic/10927-a-using-statement-in-php/
 
 class Session
 {
+	public $logged_in;    //True if user is logged in, false otherwise
+	public $userinfo = array();  //The array holding all user info
 	public $username;     //Username given on sign-up
+	public $referrer;     //Last recorded site page viewed
+	private $url;          //The page url current being viewed
 	private $userid;       //Random value generated on current login
 	private $userlevel;    //The level to which the user pertains
 	private $time;         //Time user was last active (page loaded)
-	public $logged_in;    //True if user is logged in, false otherwise
-	public $userinfo = array();  //The array holding all user info
-	private $url;          //The page url current being viewed
-	public $referrer;     //Last recorded site page viewed
-	
+
 	function __construct() {
 		$this->time = time();
+		$this->database = new DatabaseController(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
 		$this->startSession();
 	}
 
@@ -45,14 +46,14 @@ class Session
 		/* Username and userid have been set and not guest */
 		if(isset($_SESSION['username']) && isset($_SESSION['userid'])){
 			/* Confirm that username and userid are valid */
-			if($database->confirmUserID($_SESSION['username'], $_SESSION['userid']) != 0){
+			if($this->database->confirmUserID($_SESSION['username'], $_SESSION['userid']) != 0){
 				/* Variables are incorrect, user not logged in */
 				unset($_SESSION['username']);
 				unset($_SESSION['userid']);
 				return false;
 			}
 			/* User is logged in, set class variables */
-			$this->userinfo  = $database->getUserInfo($_SESSION['username']);
+			$this->userinfo  = $this->database->getUserInfo($_SESSION['username']);
 			$this->username  = $this->userinfo['username'];
 			$this->userid    = $this->userinfo['userid'];
 			$this->userlevel = $this->userinfo['userlevel'];
@@ -64,9 +65,19 @@ class Session
 	}
 	
 	function login($subuser, $subpass, $subremember) {
-		global $form;
+		//$database = new DatabaseController(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
+		$isLoggedIn = false;
+		
+		global $form; //figure out how to stop globals
+
+		//call input validation
+
+		//if valid input then try password
+
+
+
 		$field = "user";  //Use field name for username
-		if(!$subuser || strlen($subuser = trim($subuser)) == 0){
+		if(!$subuser || strlen($subuser = trim($subuser)) == 0) {
 			$form->setError($field, "* Username not entered");
 		} else {
 			/* Check if username is not alphanumeric */
@@ -81,10 +92,10 @@ class Session
 		}
 		/* Return if form errors exist */
 		if($form->getNumErrors() > 0){
-			return false;
+			$isLoggedIn = false;
 		}
 		/* Checks that username is in database and password is correct */
-		$hash = $database->getUserPass($subuser);
+		$hash = $this->database->getUserPass($subuser);
 		if ($hash == 0) {
 			$field = "user";
 			$form->setError($field, "* Username not found");
@@ -98,16 +109,16 @@ class Session
 		
 		/* Return if form errors exist */
 		if($form->getNumErrors() > 0){
-			return false;
+			$isLoggedIn = false;
 		}
 		/* Username and password correct, register session variables */
-		$this->userinfo  = $database->getUserInfo($subuser);
+		$this->userinfo  = $this->database->getUserInfo($subuser);
 		$this->username  = $_SESSION['username'] = $this->userinfo['username'];
 		$this->userid    = $_SESSION['userid']   = $this->generateRandID();
 		$this->userlevel = $this->userinfo['userlevel'];
 		/* Insert userid into database and update active users table */
-		$database->updateUserID($this->username,$this->userid);
-		$database->addActiveUser($this->username, $this->time);
+		$this->database->updateUserID($this->username,$this->userid);
+		$this->database->addActiveUser($this->username, $this->time);
 		
 		/**
 		* The user has requested that his password be remembered.
@@ -122,6 +133,7 @@ class Session
 			setcookie("cookid",   $this->userid,   time()+COOKIE_EXPIRE, COOKIE_PATH);
 		}
 		/* Login completed successfully */
+		$this->database->closeDB();
 		return true;
 	}
 	
@@ -137,7 +149,7 @@ class Session
 		session_destroy(); //destroys all of the data associated with the current session. Does not affect $_SESSION globals or cookies
 		$_SESSION = array(); //reintializes $_SESSION so that all pre-existing data is cleared/overwritten
 		$this->logged_in = false; // sets the logged in var to false
-		$database->removeActiveUser($this->username); // remove from active_users and add to active guests
+		$this->database->removeActiveUser($this->username); // remove from active_users and add to active guests
 		$this->username  = GUEST_NAME;
 		$this->userlevel = GUEST_LEVEL;
 	}
@@ -366,7 +378,7 @@ class Session
 	}
 }
 
-$mailer = new Mailer;
-$session = new Session();
-$form = new Form;
+//$mailer = new Mailer;
+//$session = new Session($database);
+//$form = new Form;
 ?>

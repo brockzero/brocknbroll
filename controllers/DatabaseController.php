@@ -15,7 +15,15 @@ class DatabaseController extends mysqli {
     }
 	
 	function closeDB(){
-		$this->close();
+
+		mysqli_close($this);
+		/*
+		try {
+			
+		} catch (Exception $e) {
+			echo 'Caught exception: ',  $e->getMessage(), "\n";
+		}
+		*/
 	}
 	
 	function addNewUser($user, $password, $email) {
@@ -71,13 +79,14 @@ class DatabaseController extends mysqli {
 	function calcNumActiveUsers(){
 		/* Calculate number of users at site */
 		$query = "SELECT * FROM ".TBL_ACTIVE_USERS;
-		$stmt = $this->query($query);
-		$this->num_active_users = $this->num_rows;
+		$result = $this->query($query);
+		$this->num_active_users = $result->num_rows;
 		$this->close();
 	}
+
 	function getUserPass($username){
 		$db_password = 0;
-		$stmt = $this->prepare("SELECT password FROM ".TBL_USERS." WHERE username = ?");
+		$stmt = $this->prepare("SELECT password FROM users WHERE username = ?");
 		$stmt->bind_param("s", $username);
 	  	$stmt->execute();
 		$stmt->bind_result($db_password);
@@ -130,6 +139,7 @@ class DatabaseController extends mysqli {
          	return 2; //Indicates userid invalid
       	}
    	}
+
 	//used for register.php
 	function usernameTaken($subusername) {
 		$query = "SELECT username FROM ".TBL_USERS." WHERE username = ?";

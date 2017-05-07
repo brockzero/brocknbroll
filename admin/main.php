@@ -1,5 +1,8 @@
 <?php
-include("session.php");
+require_once("session.php");
+require_once("form.php");
+$session = new Session();
+$form = new Form();
 //include("layout/header.php");
 echo '<div id="comicContainer">';
 

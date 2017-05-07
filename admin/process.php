@@ -7,8 +7,16 @@
  * pages if errors are found, or if form is successful. 
  * Also handles the logout procedure.
  */
-require("session.php");
+require_once('../include/autoloader.php');
+require_once("session.php");
+require_once("mailer.php");
+require_once("form.php");
+//http://www.yiiframework.com/forum/index.php/topic/10927-a-using-statement-in-php/
+$database = new DatabaseController(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
 
+$mailer = new Mailer();
+$session = new Session();
+$form = new Form();
 class Process
 {
    /* Class constructor */
@@ -42,7 +50,7 @@ class Process
        	* Should not get here, which means user is viewing this page
        	* by mistake and therefore is redirected.
        	*/
-       		header("Location: http://".$_SERVER['SERVER_NAME']."/main.php");
+       		header("Location: http://".$_SERVER['SERVER_NAME']."/admin/main.php");
       	}
    	}
 
@@ -72,7 +80,7 @@ class Process
 	function procLogout(){
     	global $session;
       	$retval = $session->logout();
-      	header("Location: http://".$_SERVER['SERVER_NAME']."/main.php");
+      	header("Location: ".$session->referrer);
    	}
    
    /**
@@ -166,5 +174,5 @@ class Process
    		}
    	}
 }
-$process = new Process;
+$process = new Process();
 ?>
