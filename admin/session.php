@@ -10,7 +10,7 @@ class Session
 	public $logged_in;    //True if user is logged in, false otherwise
 	public $userinfo = array();  //The array holding all user info
 	public $username;     //Username given on sign-up
-	public $referrer;     //Last recorded site page viewed
+	//public $referrer;     //Last recorded site page viewed
 	private $url;          //The page url current being viewed
 	private $userid;       //Random value generated on current login
 	private $userlevel;    //The level to which the user pertains
@@ -19,96 +19,78 @@ class Session
 	function __construct() {
 		$this->time = time();
 		$this->database = new DatabaseController(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
-		$this->startSession();
+		$this->Form = new Form();
+		session_start();
 	}
 
-	function startSession() {
-		session_start();   //Tell PHP to start the session
-		//session_regenerate_id(TRUE); //need more research on what to do with this
-		/* Determine if user is logged in */
-		$this->logged_in = $this->checkLogin();
-		/* Set referrer page */
-		if(isset($_SESSION['url'])){
-			$this->referrer = "http://".$_SERVER['SERVER_NAME'].$_SESSION['url'];
-		} else {
-			$this->referrer = "http://".$_SERVER['SERVER_NAME']."/main.php";
-		}
-		/* Set current url */
-		$this->url = $_SESSION['url'] = $_SERVER['PHP_SELF'];
-	}
-	
 	function checkLogin() {
-		/* Check if user has been remembered */
+		$isLoggedIn = false;
+
 		if(isset($_COOKIE['cookname']) && isset($_COOKIE['cookid']) && $_SESSION['username'] != GUEST_NAME){
 			$this->username = $_SESSION['username'] = $_COOKIE['cookname'];
 			$this->userid   = $_SESSION['userid']   = $_COOKIE['cookid'];
 		}
-		/* Username and userid have been set and not guest */
+
 		if(isset($_SESSION['username']) && isset($_SESSION['userid'])){
-			/* Confirm that username and userid are valid */
 			if($this->database->confirmUserID($_SESSION['username'], $_SESSION['userid']) != 0){
-				/* Variables are incorrect, user not logged in */
 				unset($_SESSION['username']);
 				unset($_SESSION['userid']);
-				return false;
+				$isLoggedIn = false;
 			}
-			/* User is logged in, set class variables */
-			$this->userinfo  = $this->database->getUserInfo($_SESSION['username']);
-			$this->username  = $this->userinfo['username'];
-			$this->userid    = $this->userinfo['userid'];
-			$this->userlevel = $this->userinfo['userlevel'];
-			return true;
+
+			if(isset($_SESSION['username'])){
+				$this->userinfo  = $this->database->getUserInfo($_SESSION['username']);
+				$this->username  = $this->userinfo['username'];
+				$this->userid    = $this->userinfo['userid'];
+				$this->userlevel = $this->userinfo['userlevel'];
+				$isLoggedIn = true;
+			}
 		} else {
 			/* User not logged in */
-			return false;
+			$isLoggedIn = false;
 		}
+		return $isLoggedIn;
 	}
 	
-	function login($subuser, $subpass, $subremember) {
-		//$database = new DatabaseController(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
+	function Login($subuser, $subpass, $subremember) {
+
 		$isLoggedIn = false;
 		
-		global $form; //figure out how to stop globals
-
-		//call input validation
-
-		//if valid input then try password
-
-
+		//global $form; //figure out how to stop globals
 
 		$field = "user";  //Use field name for username
 		if(!$subuser || strlen($subuser = trim($subuser)) == 0) {
-			$form->setError($field, "* Username not entered");
+			$this->Form->setError($field, "* Username not entered");
 		} else {
 			/* Check if username is not alphanumeric */
 			if(!ctype_alnum($subuser)){
-				$form->setError($field, "* Username not alphanumeric");
+				$this->Form->setError($field, "* Username not alphanumeric");
 			}
 		}
 		/* Password error checking */
 		$field = "pass";  //Use field name for password
 		if(!$subpass){
-			$form->setError($field, "* Password not entered");
+			$this->Form->setError($field, "* Password not entered");
 		}
 		/* Return if form errors exist */
-		if($form->getNumErrors() > 0){
+		if($this->Form->getNumErrors() > 0){
 			$isLoggedIn = false;
 		}
 		/* Checks that username is in database and password is correct */
 		$hash = $this->database->getUserPass($subuser);
 		if ($hash == 0) {
 			$field = "user";
-			$form->setError($field, "* Username not found");
+			$this->Form->setError($field, "* Username not found");
 		}
 		$result = $this->comparePassword($subpass, $hash);
 		/* Check error codes */
 		if($result == 0) {
 			$field = "pass";
-			$form->setError($field, "* Invalid password");
+			$this->Form->setError($field, "* Invalid password");
 		}
 		
 		/* Return if form errors exist */
-		if($form->getNumErrors() > 0){
+		if($this->Form->getNumErrors() > 0){
 			$isLoggedIn = false;
 		}
 		/* Username and password correct, register session variables */
@@ -133,7 +115,10 @@ class Session
 			setcookie("cookid",   $this->userid,   time()+COOKIE_EXPIRE, COOKIE_PATH);
 		}
 		/* Login completed successfully */
-		$this->database->closeDB();
+		if($_SERVER['SERVER_NAME'] != 'localhost')
+		{
+			$this->database->closeDB();
+		}
 		return true;
 	}
 	

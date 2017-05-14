@@ -15,15 +15,7 @@ class DatabaseController extends mysqli {
     }
 	
 	function closeDB(){
-
 		mysqli_close($this);
-		/*
-		try {
-			
-		} catch (Exception $e) {
-			echo 'Caught exception: ',  $e->getMessage(), "\n";
-		}
-		*/
 	}
 	
 	function addNewUser($user, $password, $email) {
@@ -121,7 +113,6 @@ class DatabaseController extends mysqli {
 	}
 
 	function confirmUserID($username, $userid){
-     	/* Verify that user is in database */
 		$query = "SELECT userid FROM ".TBL_USERS." WHERE username = ?";
 		$stmt = $this->prepare($query);
 		$stmt->bind_param("s", $username);
@@ -132,7 +123,6 @@ class DatabaseController extends mysqli {
 	  	if(!$db_userid) {
 		 	return 1; //Indicates username failure
 	  	}
-      	/* Validate that userid is correct */
       	if($userid == $db_userid) {
         	return 0; //Success! Username and userid confirmed
       	} else {

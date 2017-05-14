@@ -1,19 +1,21 @@
 <?php
-require "admin/constants.php";
-require "admin/session.php";
+require_once "../include/constants.php";
+require_once "session.php";
 
+/*
 if(!$session->logged_in)
 {
-	header("Location: /main.php");
+	header("Location: http://".$_SERVER['SERVER_NAME']."/admin/main.php");
 }
-require "update/update_class.php";
+*/
+require_once "update_class.php";
 
 $update = new Update;
 
-require "update/update_header.php";
-
+require_once "update_header.php";
+echo $session->referrer;
 echo $update->editing_menu;
-switch($_GET[page])
+switch($_GET['page'])
 {
 	default:
 	echo '<h2>Update Site</h2>';
@@ -52,5 +54,5 @@ switch($_GET[page])
 	break;
 } 
 $database->closeDB();
-require "update/update_footer.php";
+require_once "update_footer.php";
 ?>

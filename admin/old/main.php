@@ -5,7 +5,6 @@ $session = new Session();
 $form = new Form();
 //include("layout/header.php");
 echo '<div id="comicContainer">';
-
 /*
  * User has already logged in, so display relavent links, including
  * a link to the admin center if the user is an administrator.
@@ -13,9 +12,9 @@ echo '<div id="comicContainer">';
 if($session->logged_in){
    echo "<h2>Logged In</h2>";
    echo "<p>Welcome <b>$session->username</b>, you are logged in. <br><br>"
-       ."[<a href=\"admin/userinfo.php?user=$session->username\">My Account</a>] &nbsp;&nbsp;"
-       ."[<a href=\"admin/useredit.php\">Edit Account</a>] &nbsp;&nbsp;"
-	   ."[<a href=\"update\">Update AwfulContent</a>] &nbsp;&nbsp;";
+       ."[<a href=\"userinfo.php?user=$session->username\">My Account</a>] &nbsp;&nbsp;"
+       ."[<a href=\"useredit.php\">Edit Account</a>] &nbsp;&nbsp;"
+	   ."[<a href=\"update.php\">Update AwfulContent</a>] &nbsp;&nbsp;";
    if($session->isAdmin()){
       echo '[<a href="admin.php">Admin Center</a>] &nbsp;&nbsp;';
    }
