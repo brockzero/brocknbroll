@@ -37,7 +37,9 @@
               <a v-bind:href="comic.url+comic.pagingNext">Next</a> | 
               <a v-bind:href="comic.url+comic.pagingLast">Last</a>
             </div>
-            <div><img v-bind:alt="comic.altAttr" v-bind:src="comic.fileName" v-bind:title="comic.titleAttr" ></div>
+            <div>
+              <img v-bind:alt="comic.altAttr" v-bind:src="comic.fileName" v-bind:title="comic.titleAttr" >
+            </div>
             <div class="paging">
               <a v-bind:href="comic.url+comic.pagingFirst">First</a> | 
               <a v-bind:href="comic.url+comic.pagingPrevious">Previous</a> |  
@@ -57,32 +59,32 @@
     function model(data)
     {
       console.log(data);
-      self = this;
-      self.altAttr = data.altAttr || '';
-      self.category = data.category || '';
-      self.createdDate = data.createdDate || '';
-      self.description = data.description || '';
-      self.fileName = 'comic/content/' + data.fileName || '';
-      self.id = data.id;
-      self.keywords = data.keywords || '';
-      self.pagingFirst = data.pagingFirst || '';
-      self.pagingLast = data.pagingLast || '';
-      self.title = data.title || '';
-      self.titleAttr = data.titleAttr || '';
-      self.user = data.user || '';
-      self.pagingNext = data.pagingLast;
-      self.pagingPrevious = data.pagingFirst;
+      let that = this;
+      that.altAttr = data.altAttr || '';
+      that.category = data.category || '';
+      that.createdDate = data.createdDate || '';
+      that.description = data.description || '';
+      that.fileName = 'comic/content/' + data.fileName || '';
+      that.id = data.id;
+      that.keywords = data.keywords || '';
+      that.pagingFirst = data.pagingFirst || '';
+      that.pagingLast = data.pagingLast || '';
+      that.title = data.title || '';
+      that.titleAttr = data.titleAttr || '';
+      that.user = data.user || '';
+      that.pagingNext = data.pagingLast;
+      that.pagingPrevious = data.pagingFirst;
 
-      if(self.id < self.pagingLast) {
-        self.pagingNext = self.id + 1;
+      if(that.id < that.pagingLast) {
+        that.pagingNext = that.id + 1;
       }
 
-      if(self.id > 1) {
-        self.pagingPrevious = self.id - 1;
+      if(that.id > 1) {
+        that.pagingPrevious = that.id - 1;
       } 
 
-      self.url = "comic.php?page=";
-      return self;
+      that.url = "comic.php?page=";
+      return that;
     }
 
     var comic = new Vue({
@@ -96,7 +98,7 @@
       },
       methods: {
         fetchData: function () {
-          var self = this;
+          let that = this;
           $.ajax({
               url: "comic/comic.php",
               data: { 
@@ -105,7 +107,7 @@
               cache: false,
               type: "GET",
               success: function(response) {
-                self.comic = model(JSON.parse(response));
+                that.comic = model(JSON.parse(response));
               },
               error: function(xhr) {
                 console.log(xhr);

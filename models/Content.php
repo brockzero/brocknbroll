@@ -14,7 +14,7 @@ class Content implements JsonSerializable {
 					'category' => $this->category,
 					'createdDate' => $this->createdDate,
 					'id' => $this->id,
-		      'title' => $this->title,
+		      		'title' => $this->title,
 					'url' => $this->url,
 					'user' => $this->user
         ];

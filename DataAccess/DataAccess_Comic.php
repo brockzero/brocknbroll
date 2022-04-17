@@ -1,7 +1,7 @@
 <?php
 require_once('../include/constants.php');
 require_once('../include/autoloader.php');
-class ComicController
+class DataAccessComic extends DataAccess
 {
 	private $database;
 
@@ -10,7 +10,7 @@ class ComicController
 		$this->database = $database;
 	}
 
-    public function Archive() 
+    public function GetArchive() 
     {
         try 
         {
@@ -22,7 +22,6 @@ class ComicController
 
             while($r = $stmt->fetch_assoc()) 
             {
-                //clean things up and use a constructor to read properties?
                 $Comic = new Comic();
                 $Comic->id = $r['id'];
                 $Comic->fileName = $r['fileName'];
@@ -32,11 +31,9 @@ class ComicController
                 $Comic->titleAttr = $r['titleAttr'];
                 $Comic->altAttr = $r['altAttr'];
                 $Comic->user = $r['user'];
-                
                 //http://stackoverflow.com/questions/6739871/php-create-array-for-json
                 //try this maybe I'm doing too many shortcuts, maybe I need an array of arrays
-                //so this automatically assigns the next value?
-                $list[] = $Comic->jsonSerialize();
+                $list[]  = $Comic->jsonSerialize();
             }
 
             //$stmt->close();
@@ -47,6 +44,9 @@ class ComicController
         }
 	}
 
+    //Return comic? json_encode in controller?
+    //can be made redundant if I can get the number of rows
+    //in a seb-select
 	public function Display() {
         try {
             $Comic = new Comic();
@@ -71,7 +71,7 @@ class ComicController
             {
                 $page = $Comic->pagingLast;
             }
-            $Comic = $this->GetById($Comic, $page);
+            $Comic = $this->GetComicById($Comic, $page);
             return json_encode($Comic->jsonSerialize());
             //http://stackoverflow.com/questions/4697656/using-json-encode-on-objects-in-php-regardless-of-scope
             //http://jondavidjohn.com/show-non-public-members-with-json_encode/
@@ -80,14 +80,23 @@ class ComicController
         }	
 	}
 	
-    //Why not create a new comic and return that?
-	public function GetById($Comic, $id) {
+    //Create comic in method, collect values, assign to comic
+    //replace Display and get numRows in query?
+    //
+	public function GetComicById($Comic, $id) {
         try {
             //mysqli cannot have variables in the query directly use prepare()/bind_param()
-            $query = "SELECT Id, FileName, DATE_FORMAT(CreatedDate,'%m-%d-%Y')
-                AS CreatedDate, Title, Description, TitleAttr, AltAttr, User
-                FROM comic
-                WHERE Id = ?";
+            $query = "SELECT Id
+            ,FileName
+            ,DATE_FORMAT(CreatedDate,'%m-%d-%Y') AS CreatedDate
+            ,Title
+            ,Description
+            ,TitleAttr
+            ,AltAttr
+            ,User
+            ,SELECT Count(Id) FROM Comic AS NumRows --this may not be legal, but we should be able to get something like it going
+            FROM Comic
+            WHERE Id = ?";
             $stmt = $this->database->prepare($query);
             $stmt->bind_param("i", $id);
             $stmt->execute();
@@ -109,7 +118,10 @@ class ComicController
         }
 	}
 
-	public function Create()
+    //formerly Create()
+    //validate/map $_POST values to $comic
+    //change to PDO
+	public function InsertComic($comic)
 	{
 		$query = "INSERT INTO comic (AltAttr, Category, CreatedDate, Description, FileName, Id, Keywords, Title, TitleAttr, User)
 		VALUES (?,?,NOW(),?,?,NULL,?,?,?,?)";
@@ -133,7 +145,9 @@ class ComicController
 		$this->database->closeDB();
 	}
 
-	public function Update()
+    //validate/map $_POST values to $comic
+    //change to PDO
+	public function UpdateComic()
 	{
         $query = "UPDATE comic SET AltAttr = ?, Category = ?, Description = ?, FileName = ?, Keywords = ?, Title = ?, TitleAttr = ?, User = ? WHERE Id = ?";
 		//VALUES (?,?,NOW(),?,?,NULL,?,?,?,?)";

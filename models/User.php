@@ -8,14 +8,14 @@ class User implements JsonSerializable {
 	public $userName = '';
 
 	public function jsonSerialize() {
-        return [
-					'email' => $this->email,
-					'id' => $this->id,
-					'password' => $this->password,
-					'timeStamp' => $this->timeStamp,
-		      'userLevel' => $this->userLevel,
-					'userName' => $this->userName
-        ];
+		$json = [
+			'email' => $this->email,
+			'id' => $this->id,
+			'password' => $this->password,
+			'timeStamp' => $this->timeStamp,
+			'userLevel' => $this->userLevel,
+			'userName' => $this->userName];
+        return $json;
     }
 }
 ?>
