@@ -1,5 +1,5 @@
 <?php
-//social media buttons
+/*//social media buttons
 $pageURL = (@$_SERVER["HTTPS"] == "on") ? "https://" : "http://";
 $pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
 $facebookButton = '<div id="social">
@@ -144,7 +144,7 @@ function addAchievement() {
 
 	document.updateForm.article.value += newtext;
 }
-</script>';
+</script>';*/
 /*
 Performance Tester: time to generate a page
 ###########################################

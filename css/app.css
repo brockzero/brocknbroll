@@ -1,71 +1,95 @@
-/* app css stylesheet http://foundation.zurb.com/sites/docs/*/
-html, body {
-  height: 100%;
-  /* The html and body elements cannot have any padding or margin. */
-}
 body {
-    background-color: #424242;
-    /* background-attachment: fixed;
-    background-image:url(../img/ac-background.png); */
+    background-color: #121212;
     font-family: 'Open Sans', sans-serif;
 }
 
-h1 {
-  border-bottom: solid 2px black;
+body > div.main > div#siteNav > div > h1 {
+    display:none;
 }
 
-#mainBody {
-   background-color: #424242;
-   background-image:url(../img/brock-n-broll-banner.png);
-   background-repeat: no-repeat;
-   background-position: 100 100;
- }
-
-#mainContent {
-  background-color: #ffffff;
-  border: 1px solid black;
-  border-radius: 20px;
-  min-height: 560px;
-  padding-left:30px;
-  padding-right:30px;
-  padding-bottom:15px;
+.comicDescription {
+    padding:10px;
 }
 
-.nav>li>a, .navbar-nav>li>a {
-  padding: 4px 46px 4px 4px;
-  line-height:12px;
-  color: white;
-  display:block;
-}
-.nav>li>a:hover, .navbar-nav>li>a:hover {
-  background-color: white;
-  color: #424242;
+.comicNav {
+    text-align:center;
+    border: 1px solid #121212;
+    border-radius: 10px;
 }
 
-@media (min-width: 768px) and (max-width: 979px) {
-  #mainBody,.menu {background-color: #ffffff;}
-  .menu {border-bottom: 1px solid #424242; height:30px;}
-  .nav>li>a, .navbar-nav>li>a {
-    font-size:18px;
-    padding: 4px 8px;
-    line-height:22px;
-    color: #424242;
-  }
-  .nav>li>a:hover, .navbar-nav>li>a:hover {
-    background-color: #424242;
-    color: white;
-  }
- }
-
-.comic-detail, .comic-nav {
- text-align:center;
+.comicNav li > a {
+    color: #121212;
+    text-decoration: underline;
 }
 
-.comic-author {
-  margin-bottom:40px;
+.floatFix {
+    float:left !important;
+}
+.full-height {
+    min-height:100vh;
+    background-color: #fdfdfd;
+    border-top-left-radius: 0;
+    border-top-right-radius: 1.5rem;
+    border-bottom-right-radius: 1.5rem;
+    border-bottom-left-radius: 0;
 }
 
-#comic img {
+#comicVue img {
   display:block;
   margin:0px auto;
+}
+
+#siteNav { 
+    text-align:right;
+    padding-right: 0px;
+}
+
+#siteNav li > a {
+    color: #ffffff;
+}
+
+#siteNav li > a:hover {
+    background-color: white;
+    color: #121212;
+    border-top-left-radius: 2.5rem 5rem;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 2.5rem 5rem;
+}
+
+@media screen and (min-width: 1em) and (max-width: 63.9375em) {
+
+    body > div.main > div#siteNav > div > img {
+        display:none;
+    }
+    body > div.main > div#siteNav > ul {
+        color:#ffffff;
+        margin:0px;
+        padding:0px;
+    }
+    body > div.main > div#siteNav > div > h1 {
+        font-size:30px;
+        display:block;
+        color:#ffffff;
+        text-align:right;
+        padding:0px;
+        margin:0px 10px 0px 0px;
+        line-height:38px;
+    }
+
+    .full-height {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    .menu.vertical > li {
+        float: left;
+    }
+
+    #siteNav { 
+        text-align:left;
+        padding-right: 0px;
+    }
 }

@@ -3,14 +3,15 @@ RewriteEngine on
 RewriteBase /
 RewriteRule ^([A-Za-z0-9_-]+)/?$ $1.php [L]
 RewriteRule ^([A-Za-z0-9_-]+)/([A-Za-z0-9_-]+)/?$ $1.php?page=$2 [L]
+#almost works, doesn't redirect any http to https I need to figure that out
 RewriteRule ^([A-Za-z0-9_-]+)/([A-Za-z0-9_-]+)/([A-Za-z0-9_-]+)/?$ $1.php?page=$2&id=$3 [L]
-#look into [QSA] for simplyfing my rules
-
-#https://gist.github.com/RaVbaker/2254618
-#RewriteEngine on
-#RewriteCond %{REQUEST_FILENAME} !-d
-#RewriteCond %{REQUEST_FILENAME} !-f
-#RewriteRule . index.php [L]
+#maintains clean urls when redirecting from awfulcontent to brocknbroll
+#RewriteCond %{HTTP_HOST} ^(www\.)?brocknbroll\.com$ [NC]
+#RewriteRule ^(.*)$ https://brocknbroll.com/$1 [R=301,NC,L]
+#RewriteCond %{HTTP_HOST} ^www.brocknbroll.com$ [NC]
+#RewriteRule ^(.*)$ https://brocknbroll.com/$1 [R=301,L]
+#RewriteCond %{HTTPS} off
+#RewriteRule ^(.*)$ https://brocknbroll.com/$1 [R=301,L]
 
 
 #If your host alows magic quotes off http://us2.php.net/manual/en/security.magicquotes.disabling.php
@@ -21,7 +22,8 @@ RewriteRule ^([A-Za-z0-9_-]+)/([A-Za-z0-9_-]+)/([A-Za-z0-9_-]+)/?$ $1.php?page=$
 #magic_quotes_gpc = Off
 
 #^ for localhost
-#RewriteBase /awful  <---- not sure what this is for anymore
+#  <---- not sure what this is for anymore
+RewriteBase /brocknbroll
 
 #This goes in httpd.conf on my local machine
 #It makes my 1270.0.1 into awfulcontent.net

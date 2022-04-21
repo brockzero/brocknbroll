@@ -1,40 +1,49 @@
 <?php 
 $pageTitle = "Obligatory Contact Form";
 require "admin/constants.php";
-require "layout/header.php";
-echo '<div id="wordsContainer">';
-$form_block = "<h2>Obligatory Contact Form</h2>
+require "header.php";
+echo '<div class="view-frame">';
+$form_block = '<h2>Obligatory Contact Form</h2>
 <p>I get close to six billion fan mails a day so I may not get back to you immediately. Average wait time for a response is 17 years 3 months and 12 days.</p>
-<form method='post' action='contact'>
-  <table>
-    <tr>
-      <td style='width:120px;'><p>Name</p></td>
-      <td><p>
-          <input style='width:280px;' type='text' name='Name' />
-        </p></td>
-    </tr>
-    <tr>
-      <td><p>E-Mail</p></td>
-      <td><p>
-          <input style='width:280px;' type='text' name='E-mail' />
-        </p></td>
-    </tr>
-    <tr>
-      <td><p>Subject</p></td>
-      <td><p>
-          <input style='width:280px;' type='text' name='Subject' />
-        </p></td>
-    </tr>
-  </table>
-  <table>
-    <tr>
-      <td><p>Comments:<br />
-          <textarea style='width:400px; height:200px;' name='Message'></textarea></p>
-        <p><input type='submit' value='Submit E-mail' /></p>
-		</td>
-    </tr>
-  </table>
-</form>";
+<form method="post" action="contact">
+<div class="row collapse">
+    <div class="large-6 columns">
+      <div class="row prefix-radius">
+        <div class="small-3 columns">
+          <span class="prefix">Name</span>
+        </div>
+        <div class="small-9 columns">
+           <input type="text" name="Name" />
+        </div>
+      </div>
+			<div class="row prefix-radius">
+        <div class="small-3 columns">
+          <span class="prefix">E-mail</span>
+        </div>
+        <div class="small-9 columns">
+           <input type="text" name="E-mail" />
+        </div>
+      </div>
+			<div class="row prefix-radius">
+        <div class="small-3 columns">
+          <span class="prefix">Subject</span>
+        </div>
+        <div class="small-9 columns">
+           <input type="text" name="Subject" />
+        </div>
+      </div>
+			<div class="row prefix-radius">
+        <div class="small-3 columns">
+          <span class="prefix">Comments</span>
+        </div>
+        <div class="small-9 columns">
+            <textarea name="Message" rows="5"></textarea></p>
+						<p><input class="button" type="submit" value="Submit E-mail" /></p>
+        </div>
+      </div>
+    </div>	
+  </div>
+</form>';
 if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 	// they need to see the form
 	echo $form_block;
@@ -49,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 	$name = trim($name);
 	$subject = trim($subject);
 	$from = urldecode($from);
-		if (eregi("\r",$from) || eregi("\n",$from)){
+		if (preg_match("/\r/",$from) || preg_match("/\n/",$from)){
 		 die("Why ?? :(");
 		}
 	$message = "<dl>";
@@ -81,5 +90,5 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 	} 
 }
 echo '</div>';
-require "layout/footer.php";
+require "footer.php";
 ?>
